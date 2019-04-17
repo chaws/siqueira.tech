@@ -6,9 +6,9 @@ published: false
 categories: kernel_others
 ---
 
-## Command Summary
+## Commands Summary
 
-Follows the command list employed in this tutorial:
+Following are all commands applied in this tutorial:
 
 &rarr; `.config` manipulations:
 
@@ -20,7 +20,7 @@ or
 cp /boot/config-`uname -r` .config
 ```
 
-&rarr; Change into the `.config` file:
+&rarr; Changing the `.config` file:
 
 ```bash
 make nconfig
@@ -29,13 +29,13 @@ make kvmconfig
 make localmodconfig
 ```
 
-&rarr; Compile:
+&rarr; Compiling:
 
 ```bash
 make ARCH=x86_64 -j8
 ```
 
-&rarr; Install:
+&rarr; Installing:
 
 ```bash
 sudo make modules_install
@@ -43,7 +43,7 @@ sudo make headers_install INSTALL_HDR_PATH=/usr
 sudo make install
 ```
 
-&rarr; Remove:
+&rarr; Cleaning:
 
 ```bash
 rm -rf /boot/vmlinuz-[TARGET]
@@ -53,6 +53,16 @@ rm -rf /boot/config-[TARGET]
 rm -rf /lib/modules/[TARGET]
 rm -rf /var/lib/initramfs/[TARGET]
 ```
+
+## Pre-requirements
+
+Note that in this tutorial you'll be running lots of programs in your VM, remember to install
+these dependencies in order to get all commands working properly:
+
+```
+sudo apt install make autoconf git bison flex bc libelf-dev libssl-dev
+```
+
 ## Introduction
 
 In this tutorial, we will take a look on how to compile and install the Linux
@@ -86,7 +96,7 @@ packages: `grub`, `bison`, `flex`, `openssh`, `ncurses`, and
 ## Choose Your Weapon
 
 Nowadays we have multiple options for conducting experiments with the Linux
-Kernel. For simplicity sake, I classify the available approaches into three
+Kernel. For the sake pf simplicity, I classified the available approaches into tree
 broad areas: **virtualization**, **desktop/laptop**, and **embedded devices**.
 The virtualization technique is a harmless way to play with the Linux kernel
 because any fatal mistake has a few consequences. For example, if you crash the
@@ -139,12 +149,12 @@ be compiled as a module; the 'y' and 'n' designates if the target will be
 compiled or not as a part of the Kernel image.
 
 Every Linux Distribution (e.g., Arch, Debian, and Fedora) usually maintain and
-distribute their own `.config` file. The distributions `.config` usually
-enables most of the available options (especially the device drivers) because
+distribute their own `.config` file. Distributions' `.config` usually
+enables most of the available options (especially device drivers) because
 they have to run in a large variety of hardware. In other words, it means that
 your computer may have several device drivers that you do not need.
 Nonetheless, the important thing here is: the more options you have enabled in
-the `.config` file, it takes more time to compile.
+the `.config` file the more it takes to compile it.
 
 If this is your first time trying to use your own compiled kernel version, I
 strongly recommend you to use the `.config` provided by your operating system
@@ -152,7 +162,7 @@ to raise your chances of success. Later, you can expand the modification as we
 describe in this tutorial.
 
 **Attention:**
-The `.config` file has Superpowers, I recommend you to invest some time to
+The `.config` file has super powers, I recommend you to invest some time to
 understand it better. Also, keep a backup of your working `.config` files, you
 can save a lot of time by having a trusted `.config`.
 {: .notice_danger}
@@ -161,8 +171,8 @@ can save a lot of time by having a trusted `.config`.
 
 Depending on the distribution that you're using, there are two options to get
 `.config` file: (1) `/proc` or (2) `/boot`. Both cases produce the same
-results, but not all distributions enable the `/proc` option (e.g., Arch enable
-it, but Debian not). The commands below illustrates how to get the `.config`
+results, but not all distributions enable the `/proc` option (e.g., Arch enables
+it, but Debian does not). The commands below illustrate how to get the `.config`
 for both cases:
 
 **ATTENTION:**
@@ -172,13 +182,13 @@ machine, otherwise you can fail to build and install your custom version.
 Execute this command inside the Linux Kernel directory previously cloned.**
 {: .notice_danger}
 
-1. Get `.config` from `/proc`
+a. Get `.config` from `/proc`
 
 ```bash
 zcat /proc/config.gz > .config
 ```
 
-2. Get `.config` from `/boot`
+b. Get `.config` from `/boot`
 
 ```bash
 cp /boot/config-`uname -r` .config
@@ -236,7 +246,7 @@ your machine.
 {: .notice_danger}
 
 When you use a configuration file provided by a Distribution, hundreds of
-device drivers are enabled; typically, you need a few drivers. All the enabled
+device drivers are enabled; typically, you need only a few drivers. All the enabled
 drivers will raise the compilation time, and you don't want it; fortunately,
 there is an option that automatically changes the `.config` to enable only
 required drivers for your system. This command, take a look at all the loaded
@@ -275,7 +285,7 @@ interaction is:
 make olddefconfig
 ```
 
-Finally, one last tip is related for someone that working with QEMU and KVM.
+Finally, one last tip is related to someone who is working with QEMU and KVM.
 There is an option that enables some features for this scenario:
 
 ```bash
@@ -284,11 +294,11 @@ make kvmconfig
 
 ## Compile!
 
-Now, it timeeeeee! After a bunch of setups, I am quite sure that you are
+Now, it tiiiiiime! After a bunch of setups, I am quite sure that you are
 anxious for this part. So, here we go... type:
 
 ```bash
-make -j [two_times_the_number_of_core]
+make -j [two_times_the_number_of_cores]
 ```
 
 Just replace the `two_times_the_number_of_core` for the number of cores you
@@ -297,7 +307,7 @@ have multiplied by two. For example, if you have 8 cores you should add 16.
 As an alternative, you can specify the architecture:
 
 ```bash
-make ARCH=x86_64 -j [two_times_the_number_of_core]
+make ARCH=x86_64 -j [two_times_the_number_of_cores]
 ```
 
 For compiling the kernel modules, type:
@@ -318,7 +328,7 @@ It is important to pay attention in the installation order:
 ### Install Modules and Headers
 
 **Attention:**
-From now on, double your attention in the install steps. You can crash your
+From now on, double your attention in the installation steps. You can crash your
 system.
 {: .notice_danger}
 
